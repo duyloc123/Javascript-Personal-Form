@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini App</title>
+</head>
+<body>
+    <div class="miniapp-header">
+        <div class="header-title">Responsive Form</div>
+        <div class="header-content">Form is mobile reponsive. Give it a try.</div>
+    </div>
+    <div class="miniapp-form">
+        <div class="form-left" id="form-left">
+            <div class="form-title">Personal Details</div>
+            <div class="form-content">Please fill out all the fields.</div>
+        </div>
+        <div class="form-right" id="form-right">
+            <label for="form-firstName">First Name</label>
+            <input type="text" class="form-firstName" id="form-firstName" required>
+            <label for="form-lastName">Last Name</label>
+            <input type="text" class="form-lastName" id="form-lastName" required>
+            <label for="form-email">Email Address</label>
+            <input type="email" class="form-emailAddress" id="form-emailAddress" required>
+            <label for="form-address">Address</label>
+            <input type="text" class="form-address" id="form-address" required>
+            <label for="form-city">City</label>
+            <select name="form-city" id="form-city">
+                <option value="HCM">TP. Hồ Chí Minh</option>
+                <option value="HN">Hà Nội</option>
+                <option value="Hue">Huế</option>
+            </select>
+            <label for="form-district">District</label>
+            <select name="form-district" id="form-district">
+                <option value="PN">Phú Nhuận</option>
+                <option value="HN">Gò Vấp</option>
+            </select>
+            <button type="submit" id="submit-form" class="submit-form">Submit</button>
+        </div>
+    </div>
+    <div class="miniapp-data">
+        <table class="miniappList">
+            <tr>
+                <th>FIRST NAME</th>
+                <th>LAST NAME</th>
+                <th>EMAIL ADDRESS</th>
+                <th>ADDRESS</th>
+                <th>CITY</th>
+                <th>ACTION</th>
+            </tr>
+            <tr>
+                <td>No Data</td>
+            </tr>
+        </table>
+    </div>
+    <div class="miniapp-footer">
+        <p>Showing 0 Entries</p>
+        <button class="btn-footer btn--prev">Prev</button>
+        <button class="btn-footer btn--next">Next</button>
+    </div>
+</body>
+</html>
