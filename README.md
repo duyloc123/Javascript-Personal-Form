@@ -1,7 +1,6 @@
 # Mini-App
 
-#Technical:
-
-  javascript
-
-  tailwindcss
+<ul> <span styles="font-weight: 700">Technical</span>
+  <li>Javascript</li>
+  <li>Tailwindscss</li>
+</ul>
