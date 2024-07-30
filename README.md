@@ -8,3 +8,6 @@
 * Validate input when user click the “Submit” button.
 * Delete when click button “Delete”.
 * Edit when click button "Edit".
+## Image
+
+![Uploading Screenshot 2024-07-31 at 00.56.42.png…]()
