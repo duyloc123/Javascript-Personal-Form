@@ -1,4 +1,4 @@
 # Mini-App
 ## Technical
-> Javascript
-> Tailwindcss
+* Javascript
+* Tailwindcss
