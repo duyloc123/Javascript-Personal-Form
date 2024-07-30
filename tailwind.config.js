@@ -5,7 +5,11 @@ module.exports = {
   ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      margin: {
+        '5px': '5px',
+      }
+    },
   },
   variants: {
     extend: {},

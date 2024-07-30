@@ -21,20 +21,22 @@
                     <p>Please fill out all the fields.</p>
             </div>
                 <div class="lg:col-span-2">
-                <form action="">
+                <form action="" id="myForm" >
                     <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
                         <div class="md:col-span-3">
                             <label for="firstName">First Name</label>
                             <input type="text" name="firstName" id="firstName" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50">
+                            <p class="text-red-600 my-2" id="requiredFirstName"></p>
                         </div>
                         <div class="md:col-span-2">
                             <label for="lastName">Last Name</label>
                             <input type="text" name="lastName" id="lastName" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50">
+                            <p class="text-red-600 my-2" id="requiredLastName"></p>
                         </div>
                         <div class="md:col-span-5">
                             <label for="email">Email Address</label>
-                            <input type="email" name="email" id="email" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="email@domain.com">
-                            <p class="text-red-600 my-2"></p>
+                            <input type="text" name="email" id="email" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" placeholder="email@domain.com">
+                            <p class="text-red-600 my-2" id="requiredEmail"></p>
                         </div>
                         <div class="md:col-span-5">
                             <label for="address">Address</label>
@@ -43,22 +45,24 @@
                         <div class="md:col-span-3">
                             <label for="city">City</label>
                             <select name="city" id="city" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option value="hcm">Hồ Chí Minh</option>
-                                <option value="hn">Hà Nội</option>
-                                <option value="hue">Huế</option>
+                                <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                                <option value="Hà Nội">Hà Nội</option>
+                                <option value="Huế">Huế</option>
                             </select>
                         </div>
                         <div class="md:col-span-2">
                             <label for="district">District</label>
                             <select name="district" id="district" class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option value="phunhuan">Phú Nhuận</option>
-                                <option value="govap">Gò Vấp</option>
+                                <option value="Phú Nhuận">Phú Nhuận</option>
+                                <option value="Gò Vấp">Gò Vấp</option>
                             </select>
                         </div>
                         <div class="md:col-span-5 text-right">
-                            <div class="inline-flex items-end">
+                            <div class="inline-flex items-end gap-4">
+                                <!-- <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2
+                                px-4 rounded mt-6" id="btn btn--save">Save</button> -->
                                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2
-                                 px-4 rounded">Submit</button>
+                                 px-4 rounded" id="btn btn--submit">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -68,7 +72,7 @@
         </div>
         <div class="container max-w-screen-lg mx-auto">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg"></div>
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" id="myTable">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3">First name</th>
@@ -90,11 +94,11 @@
         <div class="container max-w-screen-lg mx-auto">
             <div class="flex items-center justify-end mt-4">
                 <span class="text-sm text-gray-700 dark:text-gray-400">Showing
-                    <span class="font-semibold text-gray-900">0</span>
+                    <span class="font-semibold text-gray-900" id="countData">0</span>
                     Entries
                 </span>
                 <div class="inline-flex xs:mt-0 ml-2">
-                    <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-blue-800 rounded-s hover:bg-gray-900 ">
+                    <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-blue-800 rounded-s hover:bg-gray-900 " id="btn btn--save">
                         <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"></path>
                         </svg>
@@ -102,7 +106,7 @@
                     </button>
                 </div>
                 <div class="inline-flex xs:mt-0">
-                    <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-blue-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 ">Next
+                    <button class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-blue-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 " id="btn btn--getData">Next
                         <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"></path>
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"></path>
                         </svg>
@@ -111,5 +115,7 @@
             </div>
         </div>
     </div>
+    <script src="assets/js/main.js">
+    </script>
 </body>
 </html>
