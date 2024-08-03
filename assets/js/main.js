@@ -65,14 +65,14 @@ function renderData(dataSource){
             editElement.setAttribute('class','font-medium text-blue-600 cursor-pointer mr-4 text-lg');
             editElement.textContent = "Edit";
             editElement.addEventListener('click',() =>{
-                edit(data.id);
+                editUser(data.id);
             })
 
             const deleteElement = document.createElement('div');
             deleteElement.setAttribute('class','font-medium text-red-600 cursor-pointer mr-4 text-lg');
             deleteElement.textContent = 'Delete';
             deleteElement.addEventListener('click',() => {
-                del(data.id);
+                delUser(data.id);
             });
 
             // Apend action to td
@@ -126,13 +126,13 @@ submitElement.addEventListener('submit',(event)=>{
 
     saveData(infomation)
 
-    const count = infomation.reduce((acc,curr) => {
-        if(typeof curr === 'object'){
-            return acc + 1;
-        }
-        return acc;
-    },0)
-    countData.textContent = count;
+    // const count = infomation.reduce((acc,curr) => {
+    //     if(typeof curr === 'object'){
+    //         return acc + 1;
+    //     }
+    //     return acc;
+    // },0)
+    countInfomationUser();
 })
 
 // Validation Email
@@ -143,20 +143,22 @@ function valiEmail(email){
 
 // Todo Action edit,delete showing 2 entries
   
-function del(id){
+function delUser(id){
     infomation = infomation.filter((items) => items.id !== Number(id));
     renderData(infomation);
 
-    const count = infomation.reduce((acc,curr) => {
-        if(typeof curr === 'object'){
-            return acc + 1;
-        }
-        return acc;
-    },0)
-    countData.textContent = count;
+    countInfomationUser();
+
+    // const count = infomation.reduce((acc,curr) => {
+    //     if(typeof curr === 'object'){
+    //         return acc + 1;
+    //     }
+    //     return acc;
+    // },0)
+    // countData.textContent = count;
 }
 
-function edit(id){
+function editUser(id){
     const index = infomation.findIndex(items => items.id === Number(id));
     if(index !== -1){
         const infomationUser = {
@@ -186,6 +188,14 @@ window.onload = function() {
         return acc;
     },0)
     countData.textContent = count;
+}
 
-
+function countInfomationUser(){
+    const countUser = infomation.reduce((acc,curr) => {
+        if(typeof curr === 'object'){
+            return acc+1;
+        }
+        return acc;
+    },0)
+    countData.textContent = countUser;
 }
