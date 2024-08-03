@@ -179,5 +179,13 @@ window.onload = function() {
 
     renderData(dataSource)
 
+    const count = dataSource.reduce((acc,curr) => {
+        if(typeof curr === 'object'){
+            return acc + 1;
+        }
+        return acc;
+    },0)
+    countData.textContent = count;
+
 
 }
