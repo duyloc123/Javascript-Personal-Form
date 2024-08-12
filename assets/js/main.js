@@ -10,25 +10,15 @@ const infomationElement = document.getElementsByTagName('tbody')[0];
 const countData = document.getElementById('countData');
 
 const submitElement = document.getElementById('myForm');
-// const saveData = document.getElementById('btn btn--save');
 
-// saveData.addEventListener('click',() => {
-//     window.localStorage.setItem('infomation',JSON.stringify(infomation));
-// })
+// Local storage
+// function saveData(dataSource) {
+//     window.localStorage.setItem('personal', JSON.stringify(dataSource))
+// }
 
-// const getData = JSON.parse(window.localStorage.getItem('infomation'));
-// renderData(getData);
-
-function saveData(dataSource) {
-    window.localStorage.setItem('personal', JSON.stringify(dataSource))
-}
-
-function getDataStorage() {
-    // const data = window.localStorage.getItem('personal');
-    // const parsed = JSON.parse(data)
-    // return parsed;
-    return JSON.parse(window.localStorage.getItem('personal'));
-}
+// function getDataStorage() {
+//     return JSON.parse(window.localStorage.getItem('personal'));
+// }
 
 // Render data
 function renderData(dataSource){
@@ -47,15 +37,15 @@ function renderData(dataSource){
     
             const emailAddressElement = document.createElement('td');
             emailAddressElement.setAttribute('class','px-6 py-4 text-lg');
-            emailAddressElement.innerHTML = data.emailAddress;
+            emailAddressElement.innerHTML = data.email
     
             const addressElement = document.createElement('td');
             addressElement.setAttribute('class','px-6 py-4 text-lg');
-            addressElement.innerHTML = data.address;
+            addressElement.innerHTML = data.location[0].address;
     
             const cityElement = document.createElement('td');
             cityElement.setAttribute('class','px-6 py-4 text-lg');
-            cityElement.innerHTML = data.city;
+            cityElement.innerHTML = data.location[0].city;
 
             // Action
             const actionElement = document.createElement('td');
@@ -64,16 +54,12 @@ function renderData(dataSource){
             const editElement = document.createElement('div');
             editElement.setAttribute('class','font-medium text-blue-600 cursor-pointer mr-4 text-lg');
             editElement.textContent = "Edit";
-            editElement.addEventListener('click',() =>{
-                editUser(data.id);
-            })
+            editElement.addEventListener('click',() => editUser(data._id));
 
             const deleteElement = document.createElement('div');
             deleteElement.setAttribute('class','font-medium text-red-600 cursor-pointer mr-4 text-lg');
             deleteElement.textContent = 'Delete';
-            deleteElement.addEventListener('click',() => {
-                delUser(data.id);
-            });
+            deleteElement.addEventListener('click',() => delUser(data._id));
 
             // Apend action to td
             actionElement.appendChild(editElement);
@@ -92,9 +78,20 @@ function renderData(dataSource){
         })
 }
 
-submitElement.addEventListener('submit',(event)=>{
-    event.preventDefault();
+// Fetch API
+async function fetchAPI() {
+    const res = await fetch("https://tony-auth-express-vdee-6j0s-fhovok9bu.vercel.app/api/member",{
+        method: "get"
+    });
+    const data = await res.json();
+    infomation = data.data;
+    renderData(infomation);
+    countInfomationUser();
+}
+fetchAPI();
 
+submitElement.addEventListener('submit',(even)=>{
+    // even.preventDefault();
     const firstNameLength = document.getElementById('requiredFirstName');
     const lastNameLength = document.getElementById('requiredLastName');
     const emailAddressLength = document.getElementById('requiredEmail');
@@ -108,32 +105,58 @@ submitElement.addEventListener('submit',(event)=>{
         emailAddressLength.textContent = valiEmail ? "Email must end width @gmail.com" : "";
         return;
     }
-
-    const infomationUser = {
-        id: Date.now(),
-        firstName: inputFirstName.value,
-        lastName: inputLastName.value,
-        emailAddress: inputEmailAddress.value,
-        address: inputAddress.value,
-        city: inputCity.value,
-        district: inputDistrict.value
-    }
+    addInfo();
     firstNameLength.textContent = "";
     lastNameLength.textContent = "";
     emailAddressLength.textContent = "";
-    infomation.push(infomationUser);
-    renderData(infomation);
-
-    saveData(infomation)
-
-    // const count = infomation.reduce((acc,curr) => {
-    //     if(typeof curr === 'object'){
-    //         return acc + 1;
-    //     }
-    //     return acc;
-    // },0)
+    // Count data
     countInfomationUser();
 })
+
+async function addInfo(){
+    const infomationUser = {
+        data:{
+            "avatar": "https://cdn.fakercloud.com/avatars/ManikRathee_128.jpg",
+            "firstName": inputFirstName.value,
+            "lastName": inputLastName.value,
+            "email": inputEmailAddress.value,
+            "position": "Front End Engineer",
+            "dateJoin": "2014-08-20",
+            "location": [
+                {
+                    "address": inputAddress.value,
+                    "district": inputDistrict.value,
+                    "city": inputCity.value
+                }
+            ]
+}
+    }
+    try{
+        const res = await fetch("https://tony-auth-express-vdee-6j0s-fhovok9bu.vercel.app/api/member",{
+            method: "post",
+            headers:{
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(infomationUser)
+        });
+        const data = await res.json();
+        infomation.push({
+            firstName: data.data.firstName,
+            lastName: data.data.lastName,
+            email: data.data.email,
+            location: [
+                {
+                    address: data.data.location[0].address,
+                    district: data.data.location[0].district,
+                    city: data.data.location[0].city
+                }
+            ]
+        })
+        renderData(infomation);
+    } catch (e){
+        alert("Error: " + e);
+    }
+}
 
 // Validation Email
 function valiEmail(email){
@@ -141,54 +164,64 @@ function valiEmail(email){
     return emailRegex.test(email);
 }
 
-// Todo Action edit,delete showing 2 entries
-  
-function delUser(id){
-    infomation = infomation.filter((items) => items.id !== Number(id));
-    renderData(infomation);
-
-    countInfomationUser();
-
-    // const count = infomation.reduce((acc,curr) => {
-    //     if(typeof curr === 'object'){
-    //         return acc + 1;
-    //     }
-    //     return acc;
-    // },0)
-    // countData.textContent = count;
-}
-
-function editUser(id){
-    const index = infomation.findIndex(items => items.id === Number(id));
-    if(index !== -1){
-        const infomationUser = {
-            id: Date.now(),
-            firstName: inputFirstName.value,
-            lastName: inputLastName.value,
-            emailAddress: inputEmailAddress.value,
-            address: inputAddress.value,
-            city: inputCity.value,
-            district: inputDistrict.value
-        }
-        infomation[index] = infomationUser;
-        renderData(infomation);
+async function delUser(id){
+    try{
+        const res = await fetch(`https://tony-auth-express-vdee-6j0s-fhovok9bu.vercel.app/api/member/${id}`,{
+            method: 'delete',
+        })
+    
+        const index = infomation.findIndex(item => item._id === id);
+            infomation.splice(index,1);
+            renderData(infomation);
+            countInfomationUser();
+    } catch(e){
+        alert("Error: " + e);
     }
 }
 
-window.onload = function() {
-    const dataSource = getDataStorage();
-    if(!dataSource) return;
-
-    renderData(dataSource)
-
-    const count = dataSource.reduce((acc,curr) => {
-        if(typeof curr === 'object'){
-            return acc + 1;
+async function editUser(id){
+    const firstNameLength = document.getElementById('requiredFirstName');
+    const index = infomation.findIndex(items => items._id === id);
+    const newFirstName = inputFirstName.value;
+   if(newFirstName.length < 10){
+        firstNameLength.textContent = 'This min field is 10.';
+        return
+   }
+   const infomationIndex = {
+        "data":{    
+            ...infomation[index],
+            "firstName": newFirstName,
         }
-        return acc;
-    },0)
-    countData.textContent = count;
+    }
+    try{
+        const res = await fetch(`https://tony-auth-express-vdee-6j0s-fhovok9bu.vercel.app/api/member/${id}`,{
+            method: 'put',
+            headers:{
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(infomationIndex)
+        })
+        infomation[index].firstName = newFirstName;
+        renderData(infomation);
+    } catch(e){
+        alert("Error:" +e);
+    }
 }
+
+// window.onload = function() {
+//     const dataSource = getDataStorage();
+//     if(!dataSource) return;
+
+//     renderData(dataSource)
+
+//     const count = dataSource.reduce((acc,curr) => {
+//         if(typeof curr === 'object'){
+//             return acc + 1;
+//         }
+//         return acc;
+//     },0)
+//     countData.textContent = count;
+// }
 
 function countInfomationUser(){
     const countUser = infomation.reduce((acc,curr) => {
